@@ -15,7 +15,11 @@ module.exports = {
 
             for (_command of commands) {
                 let commandToPush = new Object();
-                commandToPush.name = _command[1].name;
+                commandToPush.name = prefix + _command[1].name;
+                if (commandToPush.usage != null) {
+                    commandToPush += ` ${usage}`;
+                }
+
                 commandToPush.value = _command[1].description;
                 commandsToSend.push(commandToPush);
             }

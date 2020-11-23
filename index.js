@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 
 const client = new Discord.Client();
 
-const {prefix, token} = require('./config.json');
+const {prefix, token, ownerID} = require('./config.json');
 
 client.commands = new Discord.Collection();
 
@@ -20,13 +20,16 @@ for (const file of commandFiles) {
 const cooldowns = new Discord.Collection();
 
 client.once('ready', () => {
-	console.log('Ready!');
+    console.log(`Ready as ${client.user.username} (${client.user.id})!`);
+    client.user.setPresence({ status: 'online', activity: { type: 'PLAYING', name: 'm!help' } });
 });
+
+
 
 client.on('message', message => {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
     
-    const args = message.content.slice(prefix.length).trim().split(' ');
+    const args = message.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
 
     const command = client.commands.get(commandName) ||
