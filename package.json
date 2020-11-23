@@ -1,0 +1,23 @@
+{
+  "name": "manic-island-bot",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000m\u0000a\u0000n\u0000i\u0000c\u0000-\u0000i\u0000s\u0000l\u0000a\u0000n\u0000d\u0000-\u0000b\u0000o\u0000t\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^12.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avocado5182/manic-island-bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/avocado5182/manic-island-bot/issues"
+  },
+  "homepage": "https://github.com/avocado5182/manic-island-bot#readme"
+}
