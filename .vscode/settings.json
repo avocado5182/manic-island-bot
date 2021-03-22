@@ -1,6 +1,5 @@
 {
     "diffEditor.codeLens": true,
-    "git.autorefresh": false,
     "git.decorations.enabled": false,
     "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
     "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
