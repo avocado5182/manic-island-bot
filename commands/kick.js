@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'kick',
-    description: 'Poggers',
+    description: 'Kick a member',
     guildOnly: true,
     usage: '<user>',
 	execute(message, args) {
@@ -9,16 +9,17 @@ module.exports = {
 		}
 
 		const taggedUser = message.mentions.members.first();
-
-        console.log(`You wanted to kick ${taggedUser.user.username}`);
         
         if (message.member.hasPermission('KICK_MEMBERS')) {
             taggedUser.kick()
                 .catch((error) => {
-                    message.channel.send(`I do not have sufficient permissions to kick members! Check your role settings and try again.\n**Error:** *${error}*`);
+                    message.channel.send(`<@${message.guild.owner.id}> You need to allow me to kick members.\n**Tip:** *Put your Bots role or Manic Island role above the roles you want to kick.*`);
+                    client.users.fetch('543817742487388179').then((user) => {
+                        user.send(`<@${message.guild.owner.id}> of **${message.guild.name}** needs to configure their bot instance. DM them to help them if they need help\n${error}`);
+                    });
                 });
         } else {
-            message.channel.send('You do not have permissions to kick members!');
+            message.channel.send(`<@${message.author.id}> You cannot kick members. Ask a moderator if you think a member is breaking the rules.`);
         }
 	},
 };

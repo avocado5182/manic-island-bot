@@ -4,11 +4,19 @@
   "description": "��#\u0000 \u0000m\u0000a\u0000n\u0000i\u0000c\u0000-\u0000i\u0000s\u0000l\u0000a\u0000n\u0000d\u0000-\u0000b\u0000o\u0000t\u0000\r\u0000 \u0000",
   "main": "index.js",
   "dependencies": {
-    "discord.js": "^12.4.1"
+    "axios": "^0.21.1",
+    "discord.js": "^12.4.1",
+    "file": "^0.2.2",
+    "js-levenshtein": "^1.1.6",
+    "json-buffer": "^3.0.1",
+    "keyv": "^4.0.3",
+    "node-fetch": "^2.6.1",
+    "spell-checker-js": "^1.2.6",
+    "sqlite3": "^5.0.2"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",

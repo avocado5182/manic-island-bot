@@ -1,0 +1,12 @@
+api-test
+api
+eval
+help
+kick
+ping
+pog
+reload
+restart
+createproduct
+modifyproduct
+productinfo
