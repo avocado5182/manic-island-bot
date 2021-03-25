@@ -6,6 +6,8 @@ const levenshtein = require('js-levenshtein');
 
 const client = new Discord.Client();
 
+require("dotenv").config();
+
 client.commands = new Discord.Collection();
 
 spell.load('./commands/commands.txt');

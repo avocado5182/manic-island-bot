@@ -6,11 +6,13 @@
   "dependencies": {
     "axios": "^0.21.1",
     "discord.js": "^12.4.1",
+    "dotenv": "^8.2.0",
     "file": "^0.2.2",
     "js-levenshtein": "^1.1.6",
     "json-buffer": "^3.0.1",
     "keyv": "^4.0.3",
     "node-fetch": "^2.6.1",
+    "owoify-js": "^1.0.7",
     "spell-checker-js": "^1.2.6",
     "sqlite3": "^5.0.2"
   },

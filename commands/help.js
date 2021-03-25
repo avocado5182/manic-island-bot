@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 // const { prefix } = require('../config.json');
+require("dotenv").config();
 
 const fs = require('fs');
 const commandNames = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));

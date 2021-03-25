@@ -1,4 +1,5 @@
 // const { ownerID, token } = require('../config.json');
+require("dotenv").config();
 
 module.exports = {
     name: "restart",

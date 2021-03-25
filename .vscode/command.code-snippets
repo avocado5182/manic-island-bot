@@ -1,0 +1,17 @@
+{
+	"Create a command": {
+		"scope": "javascript",
+		"prefix": "command",
+		"body": [
+			"module.exports = {",
+				"\tname: \"${1:name}\",",
+				"\tdescription: \"${2:description}\",",
+				"\taliases: [],",
+				"\tdebug: false,",
+				"\texecute(message, args) {",
+					"\t\t$0",
+				"\t}",
+			"}"
+		]
+	}
+}
