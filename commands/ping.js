@@ -1,6 +1,7 @@
 module.exports = {
     name: 'ping',
     description: 'Gets Manic Island\'s ping',
+    category: "debug",
     execute(message, args) {
         // https://stackoverflow.com/questions/63411268/discord-js-ping-command
         // message.channel.send('Loading data').then(async (msg) => {

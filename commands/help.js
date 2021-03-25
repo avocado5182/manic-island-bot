@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const { prefix } = require('../config.json');
+// const { prefix } = require('../config.json');
 
 const fs = require('fs');
 const commandNames = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -24,15 +24,59 @@ module.exports = {
         
         if (!args.length) {
             let commandsToSend = [];
+            let otherCommands = [];
+            let moderationCommands = [];
+            let debugCommands = [];
+            let economyCommands = [];
+            let funCommands = [];
+
 
             for (_command of commands) {
                 if (_command[1].name == "debug") continue;
-                let commandToPush = new Object();
-                commandToPush.name = prefix + _command[1].name;
-                if (commandToPush.usage != null) commandToPush += ` ${usage}`;
+                switch (_command[1].category) {
+                    case "moderation":
+                        moderationCommands.push(`\`${_command[1].name}\``);
+                        break;
+                    case "debug":
+                        debugCommands.push(`\`${_command[1].name}\``);
+                        break;
+                    case "economy":
+                        economyCommands.push(`\`${_command[1].name}\``);
+                        break;
+                    case "fun":
+                        funCommands.push(`\`${_command[1].name}\``);
+                        break;
+                    default:
+                        otherCommands.push(`\`${_command[1].name}\``);
+                        break;
+                }
+            }
 
-                commandToPush.value = _command[1].description;
-                commandsToSend.push(commandToPush);
+            commandsToSend.push({
+                name: "Debug",
+                value: debugCommands.join(" ")
+            });
+
+            commandsToSend.push({
+                name: "Fun",
+                value: funCommands.join(" ")
+            });
+
+            commandsToSend.push({
+                name: "Economy",
+                value: economyCommands.join(" ")
+            });
+
+            commandsToSend.push({
+                name: "Moderation",
+                value: moderationCommands.join(" ")
+            });
+
+            if (otherCommands.length > 0) {
+                commandsToSend.push({
+                    name: "Other",
+                    value: otherCommands.join(" ")
+                });
             }
 
             const helpEmbed = new MessageEmbed()
@@ -70,10 +114,10 @@ module.exports = {
             }
 
             return (realName == name)
-                ? message.channel.send(`${prefix}${name} is not a valid command. Try again.`)
+                ? message.channel.send(`${process.env.PREFIX}${name} is not a valid command. Try again.`)
                 : [
-                    message.channel.send(`${prefix}${name} is not a valid command.`),
-                    message.channel.send(`Did you mean \`${prefix}${realName}\`?`)
+                    message.channel.send(`${process.env.PREFIX}${name} is not a valid command.`),
+                    message.channel.send(`Did you mean \`${process.env.PREFIX}${realName}\`?`)
                 ];
 
         }
@@ -86,7 +130,7 @@ module.exports = {
 
         let commandUsage = new Object(); 
         commandUsage.name = "**Usage**"; 
-        commandUsage.value = `${prefix}${command.name}`;
+        commandUsage.value = `${process.env.PREFIX}${command.name}`;
 
         let commandCooldown = new Object(); 
         commandCooldown.name = "**Cooldown**"; 
@@ -96,8 +140,8 @@ module.exports = {
         commandDebug.name = "**Debug**";
         commandDebug.value = "No";
         
-        if (command.aliases) commandAliases.value = `${prefix}${command.aliases.join(`, ${prefix}`)}`;
-        if (command.usage) commandUsage.value = `${prefix}${command.name} ${command.usage}`;
+        if (command.aliases) commandAliases.value = `${process.env.PREFIX}${command.aliases.join(`, ${process.env.PREFIX}`)}`;
+        if (command.usage) commandUsage.value = `${process.env.PREFIX}${command.name} ${command.usage}`;
         if (command.cooldown) commandCooldown.value = `${command.cooldown} second(s)`;
         if (command.debug) commandDebug.value = "Yes";
 
@@ -110,7 +154,7 @@ module.exports = {
 
         const commandHelpEmbed = new MessageEmbed()
             .setColor('#00ff99')
-            .setTitle(`${prefix}${command.name}`)
+            .setTitle(`${process.env.PREFIX}${command.name}`)
             .setThumbnail("https://cdn.discordapp.com/emojis/779828495932981279.gif?v=1")
             .setDescription(`${command.description}`)
             .addFields(commandProperties)

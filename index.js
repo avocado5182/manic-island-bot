@@ -5,11 +5,6 @@ const spell = require('spell-checker-js');
 const levenshtein = require('js-levenshtein');
 
 const client = new Discord.Client();
-const {
-    prefix,
-    token,
-    ownerID
-} = require('./config.json');
 
 client.commands = new Discord.Collection();
 
@@ -49,9 +44,9 @@ client.once('disconnect', () => {
 })
 
 client.on('message', message => {
-    if (!message.content.startsWith(prefix) || message.author.bot) return;
+    if (!message.content.startsWith(process.env.PREFIX) || message.author.bot) return;
 
-    const args = message.content.slice(prefix.length).trim().split(/ +/);
+    const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
 
     const command = client.commands.get(commandName) ||
@@ -73,22 +68,22 @@ client.on('message', message => {
         }
 
         if (realName == commandName)
-            return message.channel.send(`${prefix}${commandName} is not a valid command. Try again.`);
+            return message.channel.send(`${process.env.PREFIX}${commandName} is not a valid command. Try again.`);
         else
             return [
-                message.channel.send(`${prefix}${commandName} is not a valid command.`),
-                message.channel.send(`Did you mean \`${prefix}${realName}\`?`)
+                message.channel.send(`${process.env.PREFIX}${commandName} is not a valid command.`),
+                message.channel.send(`Did you mean \`${process.env.PREFIX}${realName}\`?`)
             ];
     }
 
     if (command.guildOnly && message.channel.type === 'dm')
-        return message.reply(`Sorry, ${prefix}${commandName} only works in guilds.`);
+        return message.reply(`Sorry, ${process.env.PREFIX}${commandName} only works in guilds.`);
 
     if (command.args && !args.length) {
         let reply = `${message.author.username}, No arguments provided. Try again.`;
 
         if (command.usage)
-            reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
+            reply += `\nThe proper usage would be: \`${process.env.PREFIX}${command.name} ${command.usage}\``;
 
         return message.channel.send(reply);
     }
@@ -105,7 +100,7 @@ client.on('message', message => {
 
         if (now < expirationTime) {
             const timeLeft = (expirationTime - now) / 1000;
-            return message.channel.send(`<@${message.author.id}> Please wait **${timeLeft.toFixed(1)}** more second(s) before reusing ${prefix}${commandName}.`);
+            return message.channel.send(`<@${message.author.id}> Please wait **${timeLeft.toFixed(1)}** more second(s) before reusing ${process.env.PREFIX}${commandName}.`);
         }
     } else {
         timestamps.set(message.author.id, now);
@@ -122,4 +117,4 @@ client.on('message', message => {
 
 // Client login
 
-client.login(token);
+client.login(process.env.TOKEN);

@@ -1,4 +1,4 @@
-const { ownerID } = require('../config.json');
+// const { ownerID } = require('../config.json');
 const index = require('../index.js');
 
 const clean = text => {
@@ -13,16 +13,17 @@ module.exports = {
     aliases: ['evaluate','run'],
     description: 'Evaluates any line of JavaScript code as if you were the bot. Extremely dangerous.',
     debug: true,
+    category: "debug",
     args: true,
 	execute(message, args) {
-        if(message.author.id !== ownerID) return message.channel.send("Lol");
+        if(message.author.id !== process.env.OWNER_ID) return message.channel.send("Lol");
         try {
             const code = args.join(" ");
             let evaled = eval(code);
        
             if (typeof evaled !== "string")
-              evaled = require("util").inspect(evaled);
-       
+                evaled = require("util").inspect(evaled);
+                
             message.channel.send(clean(evaled), {code:"js"});
           } catch (err) {
             message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);

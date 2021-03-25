@@ -2,6 +2,7 @@ module.exports = {
 	name: 'kick',
     description: 'Kick a member',
     guildOnly: true,
+    category: "moderation",
     usage: '<user>',
 	execute(message, args) {
         if (!message.mentions.users.size) {

@@ -131,6 +131,7 @@ function prompt(message, questions, filters, checkQuestions, checkAfter = true, 
 module.exports = {
     name: "createproduct",
     description: "Creates a product with an interactive setup",
+    category: "economy",
     usage: "",
     execute(message, args) {
         // Skipping role/perm check for now

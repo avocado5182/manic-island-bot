@@ -183,6 +183,7 @@ module.exports = {
     name: "modifyproduct",
     description: "Modifies a product",
     args: true,
+    category: "economy",
     usage: "<product name>",
     execute(message, args) {
         let serverJSONPath = `./db/economy/${message.guild.id}.json`;

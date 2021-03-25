@@ -5,6 +5,7 @@ module.exports = {
     name: "productinfo",
     description: "Sends info about the given product.",
     args: true,
+    category: "economy",
     usage: "<product name>",
     execute(message, args) {
         let serverJSONPath = `./db/economy/${message.guild.id}.json`;

@@ -5,6 +5,7 @@ module.exports = {
     description: 'Sends a GET request to the url specified and sends the response. Used for debug',
     aliases: 'api',
     debug: true,
+    category: "debug",
     usage: '<api endpoint url>',
     execute(message, args) {
         if (args.length == 0) return message.channel.send(`<@${message.author.id}> You need to provide a URL. Try again.`);
