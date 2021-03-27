@@ -7,6 +7,7 @@ module.exports = {
     args: true,
     category: "economy",
     usage: "<product name>",
+    aliases: ['product', 'p'],
     execute(message, args) {
         let serverJSONPath = `./db/economy/${message.guild.id}.json`;
 

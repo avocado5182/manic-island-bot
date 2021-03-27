@@ -1,13 +1,1 @@
-{
-    "products": [{
-        "name": "OwO uwu",
-        "description": "pwease harder daddy 🥵",
-        "price": "69",
-        "sellerID": "543817742487388179",
-        "productID": 0
-    }],
-    "balances": [{
-        "user": "543817742487388179",
-        "balance": 100
-    }]
-}
+{"products":[{"name":"OwO uwu","description":"pwease harder daddy 🥵","price":"69","sellerID":"543817742487388179","productID":0},{"name":"Cum Zone Pass","description":"Gives access to the Cum Zone","price":"6900","sellerID":"543817742487388179","productID":1}],"balances":[{"user":"543817742487388179","balance":24}]}

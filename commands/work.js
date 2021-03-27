@@ -7,6 +7,7 @@ module.exports = {
     aliases: [],
     debug: false,
     category: "economy",
+    cooldown: 10,
     execute(message, args) {
         const serverJSONPath = `./db/economy/${message.guild.id}.json`;
         let serverJSONObj = {};
@@ -22,6 +23,7 @@ module.exports = {
                     balance: 100
                 }];
     
+                resultingBalance = 100;
                 serverJSONObj.balances = balances;
             } else {
                 let userIndex = serverJSONObj.balances.findIndex(u => u.user === message.author.id);
@@ -33,6 +35,7 @@ module.exports = {
                         balance: 100
                     };
 
+                    resultingBalance = 100;
                     serverJSONObj.balances.push(balance);
                 } else {
                     // user does exist and other users have balances
@@ -46,6 +49,7 @@ module.exports = {
                 balance: 100
             }];
 
+            resultingBalance = 100;
             serverJSONObj.balances = balances;
         }
 

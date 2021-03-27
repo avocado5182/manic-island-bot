@@ -5,10 +5,11 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
     name: "buyproduct",
     description: "Buys a product with a given name.",
-    aliases: [],
+    aliases: ["buy"],
     debug: false,
     args: true,
     usage: "<product name>",
+    category: "economy",
     execute(message, args) {
         const serverJSONPath = `./db/economy/${message.guild.id}.json`;
         let serverJSONObj = {};
@@ -37,7 +38,7 @@ module.exports = {
                             // Can afford
                             serverJSONObj.balances[userIndex].balance -= product.price;
                             fs.writeFileSync(serverJSONPath, JSON.stringify(serverJSONObj));
-                            return message.reply(`Product ${product.name} purchased for ${product.price} currency!\nYou now have ${serverJSONObj.balances[userIndex].balance} currency.`);
+                            return message.reply(`Product *${product.name}* purchased for ${product.price} currency! You now have ${serverJSONObj.balances[userIndex].balance} currency.`);
                         } else {
                             // Cannot afford
                             return message.channel.send("You cannot afford the specified product. Please try again.");

@@ -48,7 +48,7 @@ function prompt(message, questions, filters, checkQuestions, checkAfter = true, 
                                         description: answers[1],
                                         price: answers[2],
                                         sellerID: message.author.id,
-                                        productID: 0
+                                        productID: serverJSONObj.products.length
                                     };
 
                                     if (fs.existsSync(serverJSONPath)) {
@@ -109,7 +109,7 @@ function prompt(message, questions, filters, checkQuestions, checkAfter = true, 
                         serverJSONObj.products = [{
                             ...itemObj,
                             sellerID: message.author.id,
-                            productID: 0
+                            productID: serverJSONObj.products.length
                         }];
                     }
 
@@ -153,7 +153,7 @@ module.exports = {
                 "Are you sure you would like to give your product a description of \"%content%\"?",
                 "Are you sure you would like your product to cost %content%?"
             ],
-            true
+            false
         );
     }
 }
