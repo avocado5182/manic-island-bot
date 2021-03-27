@@ -36,6 +36,7 @@ module.exports = {
                         if (product.price <= user.balance) {
                             // Can afford
                             serverJSONObj.balances[userIndex].balance -= product.price;
+                            fs.writeFileSync(serverJSONPath, JSON.stringify(serverJSONObj));
                             return message.reply(`Product ${product.name} purchased for ${product.price} currency!\nYou now have ${serverJSONObj.balances[userIndex].balance} currency.`);
                         } else {
                             // Cannot afford
