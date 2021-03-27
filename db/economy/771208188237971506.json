@@ -1,1 +1,13 @@
-{"products":[{"name":"a","description":"new desc","price":"c","sellerID":"543817742487388179","productID":0},{"name":"OwO uwu","description":"pwease harder daddy 🥵","price":"69","sellerID":"543817742487388179","productID":0}]}
+{
+    "products": [{
+        "name": "OwO uwu",
+        "description": "pwease harder daddy 🥵",
+        "price": "69",
+        "sellerID": "543817742487388179",
+        "productID": 0
+    }],
+    "balances": [{
+        "user": "543817742487388179",
+        "balance": 100
+    }]
+}

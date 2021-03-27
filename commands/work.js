@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     name: "work",
@@ -9,6 +10,8 @@ module.exports = {
     execute(message, args) {
         const serverJSONPath = `./db/economy/${message.guild.id}.json`;
         let serverJSONObj = {};
+
+        let resultingBalance;
 
         if (fs.existsSync(serverJSONPath)) {
             serverJSONObj = JSON.parse(fs.readFileSync(serverJSONPath));
@@ -21,7 +24,8 @@ module.exports = {
     
                 serverJSONObj.balances = balances;
             } else {
-                let user = serverJSONObj.balances.filter(u => u.user === message.author.id);
+                let userIndex = serverJSONObj.balances.findIndex(u => u.user === message.author.id);
+                let user = serverJSONObj.balances[userIndex];
                 if (!user) {
                     // user doesnt exist but other users have balances
                     let balance = {
@@ -32,7 +36,8 @@ module.exports = {
                     serverJSONObj.balances.push(balance);
                 } else {
                     // user does exist and other users have balances
-                    user.balance += 100;
+                    serverJSONObj.balances[userIndex].balance = user.balance + 100;
+                    resultingBalance = serverJSONObj.balances[userIndex].balance;
                 }
             }
         } else {
@@ -45,5 +50,13 @@ module.exports = {
         }
 
         fs.writeFileSync(serverJSONPath, JSON.stringify(serverJSONObj));
+        const helpEmbed = new MessageEmbed()
+            .setColor('#00ff99')
+            .setTitle('Working')
+            .setThumbnail("https://cdn.discordapp.com/emojis/779828495932981279.gif?v=1")
+            .setDescription(`<@${message.author.id}>, you worked for 1 hour and got 100 currency! Your balance is now ${resultingBalance}!`)
+            .setFooter('Made with ❤️ by avocado#5277');
+
+        message.channel.send([helpEmbed], { split: true });
     }
 }
