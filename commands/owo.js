@@ -7,6 +7,7 @@ module.exports = {
     args: true,
     aliases: [],
     debug: false,
+    category: "fun",
     execute(message, args) {
         return message.channel.send(owoify(args.join(" "), "uvu"));
     }

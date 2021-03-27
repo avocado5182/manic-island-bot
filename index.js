@@ -31,7 +31,7 @@ client.once('ready', () => {
     client.user.setPresence({
         status: 'online',
         activity: {
-            type: 'PLAYING',
+            type: 'LISTENING',
             name: `m!help`
         }
     });

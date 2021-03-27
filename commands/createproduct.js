@@ -106,13 +106,11 @@ function prompt(message, questions, filters, checkQuestions, checkAfter = true, 
                             productID: serverJSONObj.products.length
                         });
                     } else {
-                        serverJSONObj = {
-                            products: [{
-                                ...itemObj,
-                                sellerID: message.author.id,
-                                productID: 0
-                            }]
-                        };
+                        serverJSONObj.products = [{
+                            ...itemObj,
+                            sellerID: message.author.id,
+                            productID: 0
+                        }];
                     }
 
                     fs.writeFileSync(serverJSONPath, JSON.stringify(serverJSONObj));
