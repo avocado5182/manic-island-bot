@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 module.exports = {
     name: "work",
     description: "Work for money to buy products/other goods.",
