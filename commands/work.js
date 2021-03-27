@@ -44,6 +44,6 @@ module.exports = {
             serverJSONObj.balances = balances;
         }
 
-        fs.writeSync(serverJSONPath, JSON.stringify(serverJSONObj));
+        fs.writeFileSync(serverJSONPath, JSON.stringify(serverJSONObj));
     }
 }
