@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 module.exports = {
     name: 'api-test',
     description: 'Sends a GET request to the url specified and sends the response. Used for debug',
-    aliases: 'api',
+    aliases: ['api'],
     debug: true,
     category: "debug",
     usage: '<api endpoint url>',
