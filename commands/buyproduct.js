@@ -11,34 +11,34 @@ module.exports = {
     usage: "<product name>",
     category: "economy",
     execute(message, args) {
-        const serverJSONPath = `./db/economy/${message.guild.id}.json`;
-        let serverJSONObj = {};
+        const JSONpath = `./db/economy/${message.guild.id}.json`;
+        let JSONobj = {};
 
-        if (fs.existsSync(serverJSONPath)) {
-            serverJSONObj = JSON.parse(fs.readFileSync(serverJSONPath));
+        if (fs.existsSync(JSONpath)) {
+            JSONobj = JSON.parse(fs.readFileSync(JSONpath));
 
-            if (serverJSONObj.balances === null) {
+            if (JSONobj.stats === null) {
                 return message.channel.send("You cannot buy anything since you have no currency. Please get some currency and try again.");
-            } else if (serverJSONObj.products === null) {
+            } else if (JSONobj.products === null) {
                 return message.channel.send("You cannot buy anything since there are no products. Please create a product and try again.");
             } else {
                 // Both balances and products exist
 
                 // Product check
                 let givenProductName = args.join(" ");
-                let productIndex = serverJSONObj.products.findIndex(p => p.name === givenProductName);
-                let product = serverJSONObj.products[productIndex];
+                let productIndex = JSONobj.products.findIndex(p => p.name === givenProductName);
+                let product = JSONobj.products[productIndex];
                 if (product !== null) {
                     // Product found with given name
-                    let userIndex = serverJSONObj.balances.findIndex(b => b.user === message.author.id);
-                    let user = serverJSONObj.balances[userIndex];
+                    let userIndex = JSONobj.stats.findIndex(b => b.user === message.author.id);
+                    let user = JSONobj.stats[userIndex];
                     if (user !== null) {
                         // Found balance too
                         if (product.price <= user.balance) {
                             // Can afford
-                            serverJSONObj.balances[userIndex].balance -= product.price;
-                            fs.writeFileSync(serverJSONPath, JSON.stringify(serverJSONObj));
-                            return message.reply(`Product *${product.name}* purchased for ${product.price} currency! You now have ${serverJSONObj.balances[userIndex].balance} currency.`);
+                            JSONobj.stats[userIndex].balance -= product.price;
+                            fs.writeFileSync(JSONpath, JSON.stringify(JSONobj));
+                            return message.reply(`Product *${product.name}* purchased for ${product.price} currency! You now have ${JSONobj.stats[userIndex].balance} currency.`);
                         } else {
                             // Cannot afford
                             return message.channel.send("You cannot afford the specified product. Please try again.");
