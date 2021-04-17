@@ -1,5 +1,6 @@
 const fs = require('fs');
 const { MessageEmbed } = require('discord.js');
+const guildJSON = require("../modules/getJSON");
 
 module.exports = {
     name: "work",
@@ -9,56 +10,57 @@ module.exports = {
     category: "economy",
     cooldown: 10,
     execute(message, args) {
-        const serverJSONPath = `./db/economy/${message.guild.id}.json`;
-        let serverJSONObj = {};
 
-        let resultingBalance;
+        // setBalance(message.guild.id, message.author.id, 100);
+        const newBalance = guildJSON.addBalance(message.guild.id, message.author.id, 100);
 
-        if (fs.existsSync(serverJSONPath)) {
-            serverJSONObj = JSON.parse(fs.readFileSync(serverJSONPath));
-            if (serverJSONObj.balances == null) {
-                // No one has worked yet in the server but there are products/other things
-                let balances = [{
-                    user: message.author.id,
-                    balance: 100
-                }];
-    
-                resultingBalance = 100;
-                serverJSONObj.balances = balances;
-            } else {
-                let userIndex = serverJSONObj.balances.findIndex(u => u.user === message.author.id);
-                let user = serverJSONObj.balances[userIndex];
-                if (!user) {
-                    // user doesnt exist but other users have balances
-                    let balance = {
-                        user: message.author.id,
-                        balance: 100
-                    };
+        // #region old 
+            // if (fs.existsSync(serverJSONPath)) {
+            //     serverJSONObj = JSON.parse(fs.readFileSync(serverJSONPath));
+            //     if (serverJSONObj.balances == null) {
+            //         // No one has worked yet in the server but there are products/other things
+            //         let balances = [{
+            //             user: message.author.id,
+            //             balance: 100
+            //         }];
+        
+            //         resultingBalance = 100;
+            //         serverJSONObj.balances = balances;
+            //     } else {
+            //         let userIndex = serverJSONObj.balances.findIndex(u => u.user === message.author.id);
+            //         let user = serverJSONObj.balances[userIndex];
+            //         if (!user) {
+            //             // user doesnt exist but other users have balances
+            //             let balance = {
+            //                 user: message.author.id,
+            //                 balance: 100
+            //             };
 
-                    resultingBalance = 100;
-                    serverJSONObj.balances.push(balance);
-                } else {
-                    // user does exist and other users have balances
-                    serverJSONObj.balances[userIndex].balance = user.balance + 100;
-                    resultingBalance = serverJSONObj.balances[userIndex].balance;
-                }
-            }
-        } else {
-            let balances = [{
-                user: message.author.id,
-                balance: 100
-            }];
+            //             resultingBalance = 100;
+            //             serverJSONObj.balances.push(balance);
+            //         } else {
+            //             // user does exist and other users have balances
+            //             serverJSONObj.balances[userIndex].balance = user.balance + 100;
+            //             resultingBalance = serverJSONObj.balances[userIndex].balance;
+            //         }
+            //     }
+            // } else {
+            //     let balances = [{
+            //         user: message.author.id,
+            //         balance: 100
+            //     }];
 
-            resultingBalance = 100;
-            serverJSONObj.balances = balances;
-        }
+            //     resultingBalance = 100;
+            //     serverJSONObj.balances = balances;
+            // }
 
-        fs.writeFileSync(serverJSONPath, JSON.stringify(serverJSONObj));
+            // fs.writeFileSync(serverJSONPath, JSON.stringify(serverJSONObj));
+        // #endregion
         const helpEmbed = new MessageEmbed()
             .setColor('#00ff99')
             .setTitle('Working')
             .setThumbnail("https://cdn.discordapp.com/emojis/779828495932981279.gif?v=1")
-            .setDescription(`<@${message.author.id}>, you worked for 1 hour and got 100 currency! Your balance is now ${resultingBalance}!`)
+            .setDescription(`<@${message.author.id}>, you worked for 1 hour and got 100 currency! Your balance is now ${newBalance}!`)
             .setFooter('Made with ❤️ by avocado#5277');
 
         message.channel.send([helpEmbed], { split: true });
