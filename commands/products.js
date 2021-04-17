@@ -47,8 +47,6 @@ module.exports = {
                     embedArr.push(embed);
                 }
 
-                console.log(embedArr);
-
                 let listEmbed = new Pagination.Embeds()
                     .setArray(embedArr)
                     .setColor('#00ff99')
@@ -59,6 +57,9 @@ module.exports = {
                     .setAuthorizedUsers([message.author.id])
                     .setChannel(message.channel)
                     .setPageIndicator(true)
+                    .setDisabledNavigationEmojis(['delete', 'jump'])
+                    .addFunctionEmoji('❌', (_, instance) => instance.clientAssets.message.delete())
+                    .setEmojisFunctionAfterNavigation(true)
                     .build();
             } else {
                 return message.channel.send("There are no products to list. Please create a product and try again.");
