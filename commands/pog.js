@@ -6,7 +6,10 @@ module.exports = {
     category: "fun",
     cooldown: 5,
 	execute(message, args) {
-        const pog = "<:pog:779795960234246164>";
-        message.channel.send(`${pog} poggers!!! ${pog}`);
+        message.client.guilds.fetch('767327205646532648')
+        .then(g => {
+            const pogmoji = g.emojis.cache.get((args[0] != null) ? args[0] : '767327205646532648');
+            message.channel.send(`${pogmoji.toString()} poggers!!! ${pogmoji.toString()}`);
+        });
 	},
 };
