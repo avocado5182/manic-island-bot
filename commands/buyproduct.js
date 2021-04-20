@@ -26,9 +26,8 @@ module.exports = {
 
                 // Product check
                 let givenProductName = args.join(" ");
-                let productIndex = JSONobj.products.findIndex(p => p.name === givenProductName);
-                let product = JSONobj.products[productIndex];
-                if (product !== null) {
+                let product = JSONobj.products.find(p => p.name === givenProductName);
+                if (product != null || product != undefined) {
                     // Product found with given name
                     let userIndex = JSONobj.stats.findIndex(b => b.user === message.author.id);
                     let user = JSONobj.stats[userIndex];
@@ -49,7 +48,7 @@ module.exports = {
                     }
                 } else {
                     // Product doesn't exist
-                    return message.channel.send("The specified product does not exist. Are you mispelling the name of it? Please try again.");
+                    return message.channel.send("The specified product does not exist. Are you mispelling the name of it? Please try again. Note that all product names are case sensitive.");
                 }
             }
         } else {

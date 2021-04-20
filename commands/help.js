@@ -115,10 +115,10 @@ module.exports = {
             }
 
             return (realName == name)
-                ? message.channel.send(`${process.env.PREFIX}${name} is not a valid command. Try again.`)
+                ? message.channel.send(`${process.env['PREFIX']}${name} is not a valid command. Try again.`)
                 : [
-                    message.channel.send(`${process.env.PREFIX}${name} is not a valid command.`),
-                    message.channel.send(`Did you mean \`${process.env.PREFIX}${realName}\`?`)
+                    message.channel.send(`${process.env['PREFIX']}${name} is not a valid command.`),
+                    message.channel.send(`Did you mean \`${process.env['PREFIX']}${realName}\`?`)
                 ];
 
         }
@@ -131,7 +131,7 @@ module.exports = {
 
         let commandUsage = new Object(); 
         commandUsage.name = "**Usage**"; 
-        commandUsage.value = `${process.env.PREFIX}${command.name}`;
+        commandUsage.value = `${process.env['PREFIX']}${command.name}`;
 
         let commandCooldown = new Object(); 
         commandCooldown.name = "**Cooldown**"; 
@@ -141,8 +141,8 @@ module.exports = {
         commandDebug.name = "**Debug**";
         commandDebug.value = "No";
         
-        if (command.aliases) commandAliases.value = `${process.env.PREFIX}${command.aliases.join(`, ${process.env.PREFIX}`)}`;
-        if (command.usage) commandUsage.value = `${process.env.PREFIX}${command.name} ${command.usage}`;
+        if (command.aliases.length >= 1) commandAliases.value = `${process.env['PREFIX']}${command.aliases.join(`, ${process.env['PREFIX']}`)}`;
+        if (command.usage) commandUsage.value = `${process.env['PREFIX']}${command.name} ${command.usage}`;
         if (command.cooldown) commandCooldown.value = `${command.cooldown} second(s)`;
         if (command.debug) commandDebug.value = "Yes";
 
@@ -155,7 +155,7 @@ module.exports = {
 
         const commandHelpEmbed = new MessageEmbed()
             .setColor('#00ff99')
-            .setTitle(`${process.env.PREFIX}${command.name}`)
+            .setTitle(`${process.env['PREFIX']}${command.name}`)
             .setThumbnail("https://cdn.discordapp.com/emojis/779828495932981279.gif?v=1")
             .setDescription(`${command.description}`)
             .addFields(commandProperties)
