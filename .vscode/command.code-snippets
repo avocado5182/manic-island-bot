@@ -13,5 +13,20 @@
 				"\t}",
 			"}"
 		]
+	},
+	"Create a command": {
+		"scope": "typescript",
+		"prefix": "command",
+		"body": [
+			"module.exports = {",
+				"\tname: \"${1:name}\",",
+				"\tdescription: \"${2:description}\",",
+				"\taliases: [],",
+				"\tdebug: false,",
+				"\texecute(message: Message, args: Array) {",
+					"\t\t$0",
+				"\t}",
+			"}"
+		]
 	}
 }
