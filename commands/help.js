@@ -141,7 +141,7 @@ module.exports = {
         commandDebug.name = "**Debug**";
         commandDebug.value = "No";
         
-        if (command.aliases) commandAliases.value = `${process.env.PREFIX}${command.aliases.join(`, ${process.env.PREFIX}`)}`;
+        if (command.aliases.length >= 1) commandAliases.value = `${process.env.PREFIX}${command.aliases.join(`, ${process.env.PREFIX}`)}`;
         if (command.usage) commandUsage.value = `${process.env.PREFIX}${command.name} ${command.usage}`;
         if (command.cooldown) commandCooldown.value = `${command.cooldown} second(s)`;
         if (command.debug) commandDebug.value = "Yes";
