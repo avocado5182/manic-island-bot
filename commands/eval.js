@@ -17,7 +17,7 @@ module.exports = {
     category: "debug",
     args: true,
 	execute(message, args) {
-        if(message.author.id !== process.env["OWNER_ID"]) return message.channel.send("Lol");
+        if(message.author.id !== (process.env.OWNER_ID ?? process.env["OWNER_ID"])) return message.channel.send("Lol");
         try {
             const code = args.join(" ");
             let evaled = eval(code);

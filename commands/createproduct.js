@@ -41,7 +41,7 @@ function prompt(message, questions, filters, checkQuestions, checkAfter = true, 
                                     answers.push(collected.first().content);
                                     
                                     let serverJSONPath = `./db/economy/${message.guild.id}.json`;
-                                    let serverJSONObj;
+                                    let serverJSONObj = {};
                                     
                                     let itemObj = {
                                         name: answers[0],
@@ -88,7 +88,7 @@ function prompt(message, questions, filters, checkQuestions, checkAfter = true, 
                     // No need to validate the answers, the filters did that
                     answers.push(collected.first().content);
                     let serverJSONPath = `./db/economy/${message.guild.id}.json`;
-                    let serverJSONObj;
+                    let serverJSONObj = {};
                     
                     let itemObj = {
                         name: answers[0],
@@ -109,7 +109,7 @@ function prompt(message, questions, filters, checkQuestions, checkAfter = true, 
                         serverJSONObj.products = [{
                             ...itemObj,
                             sellerID: message.author.id,
-                            productID: serverJSONObj.products.length
+                            productID: 0
                         }];
                     }
 

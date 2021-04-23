@@ -19,7 +19,8 @@
     "spell-checker-js": "^1.2.6",
     "sqlite3": "^5.0.2",
     "typescript": "^4.2.4",
-    "uwuifier": "^3.0.0"
+    "uwuifier": "^3.0.0",
+    "node": "^15.4.0"
   },
   "devDependencies": {},
   "scripts": {

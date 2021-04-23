@@ -5,34 +5,44 @@ module.exports = {
     description: "Gets info about current guild.",
     aliases: [],
     debug: false,
-    execute(message, args) {
+    async execute(message, args) {
         message.channel.send("**Info for " + message.guild.name + "**");
         
-        let serverInfo;
+        let serverInfo = [];
 
         serverInfo.push({
             name: "Creation Date",
-            value: message.guild.createdAt.getDate
+            value: `${message.guild.createdAt.getMonth()}/${message.guild.createdAt.getDate()}/${message.guild.createdAt.getFullYear()}`
         });
+
+        const owner = await message.guild.members.fetch(message.guild.ownerID);
 
         serverInfo.push({
             name: "Owner",
-            value: message.guild.owner.user.tag
+            value: owner
         });
+
+        const bots = message.guild.members.cache.filter(m => m.user.bot == true);
+        console.log(bots);
 
         serverInfo.push({
             name: "Members",
-            value: message.guild.memberCount
+            value: message.guild.memberCount - bots.size
+        });
+
+        serverInfo.push({
+            name: "Bots",
+            value: bots.size
         });
 
         const infoEmbed = new MessageEmbed()
             .setColor('#00ff99')
             .setTitle(message.guild.name)
-            .setThumbnail("https://cdn.discordapp.com/emojis/779828495932981279.gif?v=1")
+            .setThumbnail(`${message.guild.iconURL() || "https://cdn.discordapp.com/attachments/780118992513663007/833923968762904617/manicisland-filler2.png"}`)
             .setDescription("Info about " + message.guild.name)
             .addFields(serverInfo)
             .setFooter('Made with ❤️ by avocado#5277');
 
-        message.channel.send(infoEmbed, { split: true });
+        message.channel.send([infoEmbed], { split: true });
     }
 };

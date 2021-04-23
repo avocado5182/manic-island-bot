@@ -58,8 +58,8 @@ module.exports = {
                     .setChannel(message.channel)
                     .setPageIndicator(true)
                     .setDisabledNavigationEmojis(['delete', 'jump'])
-                    .addFunctionEmoji('❌', (_, instance) => instance.clientAssets.message.delete())
-                    .setEmojisFunctionAfterNavigation(true)
+                    // .addFunctionEmoji('❌', (_, instance) => instance.clientAssets.message.delete())
+                    // .setEmojisFunctionAfterNavigation(true)
                     .build();
             } else {
                 return message.channel.send("There are no products to list. Please create a product and try again.");
