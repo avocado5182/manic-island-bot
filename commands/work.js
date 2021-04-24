@@ -1,6 +1,18 @@
-const fs = require('fs');
 const { MessageEmbed } = require('discord.js');
 const guildJSON = require("../modules/getJSON");
+
+const firstLevelXP = 20;
+const XPUpRate = 0.5; // This means that for each level itll add 20 * 0.5 xp to the xp needed to level up
+
+function GetLevelFromTotalXP(totalXP, round=true) {
+    if (totalXP < firstLevelXP) return 1;
+    function XP(xp) {
+        return (1/((1/XPUpRate)*firstLevelXP) * xp) + 1/(((1/XPUpRate)*firstLevelXP)/10);
+    }
+    return (round) ? Math.floor(XP(totalXP)) + 1 : XP(totalXP) + 1;
+}
+
+const defaultPay = 100;
 
 module.exports = {
     name: "work",
@@ -12,7 +24,25 @@ module.exports = {
     execute(message, args) {
 
         // setBalance(message.guild.id, message.author.id, 100);
-        const newBalance = guildJSON.addBalance(message.guild.id, message.author.id, 100);
+        let stats = guildJSON.getKey(message.guild.id, "stats");
+        let user = stats.find(u => u.user === message.author.id);
+        if (user === undefined) {
+            user = {
+                user: message.author.id,
+                balance: 0
+            };
+            stats.push(user);
+        }
+        user.xp = user.xp ?? 0;
+        const userLevel = GetLevelFromTotalXP(user.xp);
+        const xpToGet = 5 * userLevel;
+        user.xp += xpToGet;
+        
+        const newStats = guildJSON.setKey(message.guild.id, "stats", stats);
+        
+        const payAmt = defaultPay * GetLevelFromTotalXP(user.xp);
+        
+        const newBalance = guildJSON.addBalance(message.guild.id, message.author.id, payAmt);
 
         // #region old 
             // if (fs.existsSync(serverJSONPath)) {
@@ -60,7 +90,7 @@ module.exports = {
             .setColor('#00ff99')
             .setTitle('Working')
             .setThumbnail("https://cdn.discordapp.com/emojis/779828495932981279.gif?v=1")
-            .setDescription(`<@${message.author.id}>, you worked for 1 hour and got 100 currency! Your balance is now ${newBalance}!`)
+            .setDescription(`You worked and got ${payAmt} currency! Your balance is now ${newBalance}!\nYou also got ${xpToGet} work XP! You now have ${user.xp} work XP!`)
             .setFooter('Made with ❤️ by avocado#5277');
 
         message.channel.send([helpEmbed], { split: true });
