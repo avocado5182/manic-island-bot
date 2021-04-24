@@ -27,12 +27,14 @@ module.exports = {
     
             serverInfo.push({
                 name: "Members",
-                value: message.guild.memberCount - bots.size
+                value: message.guild.memberCount - bots.size,
+                inline: true
             });
     
             serverInfo.push({
                 name: "Bots",
-                value: bots.size
+                value: bots.size,
+                inline: true
             });
     
             const infoEmbed = new MessageEmbed()
