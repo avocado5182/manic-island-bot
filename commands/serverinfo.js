@@ -22,7 +22,7 @@ module.exports = {
             value: owner
         });
 
-        const bots = message.guild.members.cache.filter(m => m.user.bot == true);
+        const bots = await message.guild.members.fetch().then(members => members.filter(m => m.user.bot));
         console.log(bots);
 
         serverInfo.push({

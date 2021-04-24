@@ -10,11 +10,6 @@ const levenshtein = require('js-levenshtein');
 
 spell.load('./commands/commands.txt');
 
-const Keyv = require('keyv');
-
-const serverSettings = new Keyv({ serialize: JSON.stringify, deserialize: JSON.parse });
-serverSettings.on('error', e => console.error(`Keyv connection error: ${e}`));
-
 module.exports = {
 	name: 'help',
 	description: 'Lists Manic Island\'s commands.',
@@ -32,7 +27,7 @@ module.exports = {
             let funCommands = [];
 
 
-            for (_command of commands) {
+            for (let _command of commands) {
                 if (_command[1].name == "debug") continue;
                 switch (_command[1].category) {
                     case "moderation":
