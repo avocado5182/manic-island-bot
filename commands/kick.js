@@ -20,7 +20,8 @@ module.exports = {
                     });
                 });
         } else {
-            message.channel.send(`<@${message.author.id}> You cannot kick members. Ask a moderator if you think a member is breaking the rules.`);
+            message.channel.send(`<@${message.author.id}> You cannot kick members.`);
+            // message.channel.send(`<@${message.author.id}> You cannot kick members. Ask a moderator if you think a member is breaking the rules.`);
         }
 	},
 };
