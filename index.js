@@ -21,12 +21,32 @@ client.commands = new Discord.Collection();
 
 spell.load('./commands/commands.txt');
 
-let mainCommandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+// https://stackoverflow.com/a/16684530/14140031
+function walk(dir) {
+    let results = [];
+    const list = fs.readdirSync(dir);
+    list.forEach(function(file) {
+        file = dir + '/' + file;
+        const stat = fs.statSync(file);
+        if (stat && stat.isDirectory()) { 
+            /* Recurse into a subdirectory */
+            results = results.concat(walk(file));
+        } else { 
+            /* Is a file */
+            file_type = file.split(".").pop();
+            file_name = file.split(/(\\|\/)/g).pop();
+            if (file_type == "js") results.push(file);
+        }
+    });
+    return results;
+}
+
+const mainCommandFiles = walk("./commands");
 
 // Adding commands to client.commands
 
 for (const file of mainCommandFiles) {
-    const command = require(`./commands/${file}`);
+    const command = require(`${file}`);
     client.commands.set(command.name, command);
 }
 
@@ -111,7 +131,12 @@ client.on('message', message => {
 
         if (now < expirationTime) {
             const timeLeft = (expirationTime - now) / 1000;
-            return message.channel.send(`<@${message.author.id}> Please wait **${timeLeft.toFixed(1)}** more second(s) before reusing ${process.env['PREFIX']}${commandName}.`);
+            return message.channel.send(`<@${message.author.id}> Please wait **${timeLeft.toFixed(1)}** more second(s) before reusing ${process.env['PREFIX']}${commandName}.`)
+                .then(msg => {
+                    setTimeout(() => {
+                        msg.delete();
+                    }, timeLeft * 1000);
+                });
         }
     } else {
         timestamps.set(message.author.id, now);
