@@ -4,17 +4,14 @@ module.exports = {
     getKey(gid, key) {
         const JSONpath = `./db/economy/${gid}.json`;
         try {
-            if (fs.existsSync(JSONpath)) {
-                let JSONobj = JSON.parse(fs.readFileSync(JSONpath));
-                if (JSONobj[key] === null || JSONobj[key] === undefined) {
-                    throw Error(`No value found for given key! (${key}, ${gid})`);
-                } else {
-                    return JSONobj[key];
-                }
+            let JSONobj = JSON.parse(fs.readFileSync(JSONpath)) ?? {};
+            const val = JSONobj[key];
+            if (val === null || val === undefined) {
+                throw Error(`val is null/undefined! (${key}, ${val} ${gid})`);
             } else {
-                throw Error(`No file for given guild id! (${gid})`);
+                return JSONobj[key];
             }
-        } catch {
+        } catch(err) {
             console.trace(err);
         }
     },
@@ -22,19 +19,14 @@ module.exports = {
     setKey(gid,key,val) {
         const JSONpath = `./db/economy/${gid}.json`;
         try {
-            if (fs.existsSync(JSONpath)) {
-                let JSONobj = JSON.parse(fs.readFileSync(JSONpath));
-                if (
-                (JSONobj[key] === null || JSONobj[key] === undefined) ||
-                (val === null || val === undefined)) {
-                    throw Error(`No value found for given key or value is null/undefined! (${key}, ${value} ${gid})`);
-                } else {
-                    JSONobj[key] = val;
-                    fs.writeFileSync(JSONpath, JSON.stringify(JSONobj));
-                    return JSONobj[key];
-                }
+            let JSONobj = JSON.parse(fs.readFileSync(JSONpath)) ?? {};
+
+            if (val === null || val === undefined) {
+                throw Error(`val is null/undefined! (${key}, ${val} ${gid})`);
             } else {
-                throw Error(`No file for given guild id! (${gid})`);
+                JSONobj[key] = val;
+                fs.writeFileSync(JSONpath, JSON.stringify(JSONobj));
+                return JSONobj[key];
             }
         } catch(err) {
             console.trace(err);
