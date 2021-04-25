@@ -134,7 +134,11 @@ module.exports = {
     execute(message, args) {
         // Skipping role/perm check for now
         const strfilter = msg => (typeof msg.content === "string");
-        const numfilter = msg => (msg - 0) == msg && ('' + msg).trim().length > 0;
+        const numfilter = msg => {
+            let str = msg.content;
+            const n = Math.floor(Number(str));
+            return n !== Infinity && String(n) === str && n > 0;
+        }
 
         prompt(
             message,
