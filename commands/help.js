@@ -159,5 +159,5 @@ module.exports = {
         data.push(commandHelpEmbed);
         
         message.channel.send(data, { split: true });
-	},
+	}
 };
