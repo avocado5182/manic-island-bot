@@ -12,7 +12,7 @@ module.exports = {
     
             serverInfo.push({
                 name: "Creation Date",
-                value: `${message.guild.createdAt.getMonth()}/${message.guild.createdAt.getDate()}/${message.guild.createdAt.getFullYear()}`
+                value: `${message.guild.createdAt.getMonth()+1}/${message.guild.createdAt.getDate()}/${message.guild.createdAt.getFullYear()}`
             });
     
             const owner = await message.guild.members.fetch(message.guild.ownerID);

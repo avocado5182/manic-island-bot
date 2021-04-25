@@ -39,7 +39,6 @@ module.exports = {
         const inputted = message.mentions.members.first() ?? args[0];
         if (inputted === args[0]) {
             // args[0] is likely an id, but we still need to check
-            console.log(message.guild.members.cache);
             message.guild.members.fetch(args[0])
             .then(member => {
                 sendMemberInfo(member, message);
