@@ -27,23 +27,23 @@ module.exports = {
 		const guildMember = await message.guild.members.fetch(user.id)
 		
 		const textOffset = padding * 2 + avatarSize;
-		// ctx.font = "24px sans-serif";
-		ctx.font = "24px Whitney";
+		// ctx.font = "24pt sans-serif";
+		ctx.font = "22pt Whitney";
 		ctx.textBaseline = "hanging";
 		ctx.fillStyle = guildMember.displayHexColor ?? "#ffffff";
 		ctx.fillText(guildMember.displayName, textOffset, padding, 1000 - textOffset - padding);
 		
 		const authorTextMetrics = ctx.measureText(guildMember.displayName);
-		const timestampXOff = padding * 3 + avatarSize + authorTextMetrics.width;
-		ctx.font = "16px Whitney";
+		const timestampXOff = padding * 2.7 + avatarSize + authorTextMetrics.width;
+		ctx.font = "16pt Whitney";
 		ctx.fillStyle = "#72767d";
 		const timestamp = `${message.createdAt.getUTCHours()}:${message.createdAt.getUTCMinutes().toString().padStart(2, 0)} ${(message.createdAt.getUTCHours() < 12) ? "AM" : "PM"}`;
 		ctx.fillText(`Today at  ${timestamp}`, timestampXOff, padding + 7, 1000 - timestampXOff - padding);
 			
-		ctx.font = "22px Whitney";
+		ctx.font = "light 20pt Whitney";
 		ctx.fillStyle = "#ffffff";
 		// ctx.fillText(text, textOffset, padding * 2.8, 1000 - textOffset - padding);
-		await fillTextWithTwemoji(ctx, text, textOffset, padding * 2.8);
+		await fillTextWithTwemoji(ctx, text, textOffset, padding * 3);
 
 		// Pick up the pen
 		ctx.beginPath();
