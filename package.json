@@ -17,6 +17,7 @@
     "keyv": "^4.0.3",
     "node": "^15.4.0",
     "node-canvas-with-twemoji": "^0.1.6",
+    "node-canvas-with-twemoji-and-discord-emoji": "^1.2.1",
     "node-fetch": "^2.6.1",
     "owoify-js": "^1.0.7",
     "spell-checker-js": "^1.2.6",
