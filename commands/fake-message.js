@@ -27,7 +27,8 @@ module.exports = {
 		ctx.fillStyle = "#36393f";
 		ctx.fillRect(0, 0, 1000, 250);
 
-		const avatarSize = 64;
+		// const avatarSize = 64;
+		const avatarSize = 48;
 		const padding = 16;
 		
 		const guildMember = message.guild.members.cache.find(u => u.id === user.id) ?? await message.guild.members.fetch(user.id);
@@ -39,27 +40,31 @@ module.exports = {
 		Canvas.registerFont(fontFile('whitneybold.otf'), { family: 'Whitney', weight: 'bold' });
 		Canvas.registerFont(fontFile('whitneylight.otf'), { family: 'Whitney', weight: 'light' });
 
-		// ctx.font = "24pt sans-serif";
-		ctx.font = `medium 1.25rem "Whitney"`;
+		// ctx.font = `medium 1.25rem "Whitney"`;
 		ctx.textBaseline = "baseline";
+		ctx.font = `medium 1rem "Whitney"`;
 		ctx.fillStyle = guildMember.displayHexColor ?? "#ffffff";
-		ctx.fillText(guildMember.displayName, textOffset, padding * 2, 1000 - textOffset + padding);
+		// ctx.fillText(guildMember.displayName, textOffset, padding * 2.25, 1000 - textOffset + padding);
+		ctx.fillText(guildMember.displayName, textOffset, padding * 1.9, 1000 - textOffset + padding);
 		
 		const authorTextMetrics = ctx.measureText(guildMember.displayName);
 		const timestampXOff = padding * 2.7 + avatarSize + authorTextMetrics.width;
-		ctx.font = `.825rem "Whitney"`;
+		// ctx.font = `.8rem "Whitney"`;
+		ctx.font = `400 .7rem "Whitney"`;
 		ctx.fillStyle = "#72767d";
 		const timestamp = `${message.createdAt.getUTCHours().toString().padStart(2, 0)}:${message.createdAt.getUTCMinutes().toString().padStart(2, 0)} ${(message.createdAt.getUTCHours() < 12) ? "AM" : "PM"}`;
-		ctx.fillText(`Today at  ${timestamp}`, timestampXOff, padding * 2, 1000 - timestampXOff + padding);
+		// ctx.fillText(`Today at  ${timestamp}`, timestampXOff, padding * 2.25, 1000 - timestampXOff + padding);
+		ctx.fillText(`Today at  ${timestamp}`, timestampXOff, padding * 1.9, 1000 - timestampXOff + padding);
 			
-		ctx.font = `light 1.25rem "Whitney"`;
+		ctx.font = `light 1rem "Whitney"`;
 		ctx.textBaseline = "hanging";
 		ctx.fillStyle = "#ffffff";
 		// ctx.fillText(text, textOffset, padding * 2.8, 1000 - textOffset - padding);
 		// console.log(1000 - textOffset * 4 - padding);
-		
+
 		// TODO add wrapping
-		await fillTextWithTwemoji(ctx, text, textOffset, padding * 2 + 12, { maxWidth: 1000 - textOffset * 4 - padding });
+		// await fillTextWithTwemoji(ctx, text, textOffset, padding * 2.25 + 12, { maxWidth: 1000 - textOffset * 4 - padding });
+		await fillTextWithTwemoji(ctx, text, textOffset, padding * 1.67 + 12, { maxWidth: 1000 - textOffset * 4 - padding });
 
 		// Pick up the pen
 		ctx.beginPath();
