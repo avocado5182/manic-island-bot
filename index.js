@@ -83,29 +83,29 @@ client.on('message', message => {
     const command = client.commands.get(commandName) ||
         client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
-    if (!command) {
-        let wrong = spell.check(commandName);
-        let realName = commandName;
+    // if (!command) {
+    //     let wrong = spell.check(commandName);
+    //     let realName = commandName;
 
-        for (let i in mainCommandFiles) {
-            if (wrong.length == 0) return;
-            let cname = mainCommandFiles[i];
-            let cmdName = cname.substring(0, cname.length - 3);
+    //     for (let i in mainCommandFiles) {
+    //         if (wrong.length == 0) return;
+    //         let cname = mainCommandFiles[i];
+    //         let cmdName = cname.substring(0, cname.length - 3);
 
-            for (j in wrong) {
-                let dist = levenshtein(commandName, cmdName);
-                if (dist < 3) realName = cmdName;
-            }
-        }
+    //         for (j in wrong) {
+    //             let dist = levenshtein(commandName, cmdName);
+    //             if (dist < 3) realName = cmdName;
+    //         }
+    //     }
 
-        if (realName == commandName)
-            return message.channel.send(`${process.env['PREFIX']}${commandName} is not a valid command. Try again.`);
-        else
-            return [
-                message.channel.send(`${process.env['PREFIX']}${commandName} is not a valid command.`),
-                message.channel.send(`Did you mean \`${process.env['PREFIX']}${realName}\`?`)
-            ];
-    }
+    //     if (realName == commandName)
+    //         return message.channel.send(`${process.env['PREFIX']}${commandName} is not a valid command. Try again.`);
+    //     else
+    //         return [
+    //             message.channel.send(`${process.env['PREFIX']}${commandName} is not a valid command.`),
+    //             message.channel.send(`Did you mean \`${process.env['PREFIX']}${realName}\`?`)
+    //         ];
+    // }
 
     if (command.guildOnly && message.channel.type === 'dm')
         return message.reply(`Sorry, ${process.env['PREFIX']}${commandName} only works in guilds.`);
