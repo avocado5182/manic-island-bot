@@ -35,11 +35,11 @@ module.exports = {
 		const guildMember = message.guild.members.cache.find(u => u.id === user.id) ?? await message.guild.members.fetch(user.id);
 
 		const textOffset = padding * 2 + avatarSize;
-		Canvas.registerFont(fontFile('whitneymedium.otf'), { family: 'Whitney', weight: 'medium' });
-		Canvas.registerFont(fontFile('whitneybook.otf'), { family: 'Whitney', weight: '400' });
-		Canvas.registerFont(fontFile('whitneysemibold.otf'), { family: 'Whitney', weight: 'semibold' });
-		Canvas.registerFont(fontFile('whitneybold.otf'), { family: 'Whitney', weight: 'bold' });
-		Canvas.registerFont(fontFile('whitneylight.otf'), { family: 'Whitney', weight: 'light' });
+		Canvas.registerFont(fontFile('../whitneymedium.otf'), { family: 'Whitney', weight: 'medium' });
+		Canvas.registerFont(fontFile('../whitneybook.otf'), { family: 'Whitney', weight: '400' });
+		Canvas.registerFont(fontFile('../whitneysemibold.otf'), { family: 'Whitney', weight: 'semibold' });
+		Canvas.registerFont(fontFile('../whitneybold.otf'), { family: 'Whitney', weight: 'bold' });
+		Canvas.registerFont(fontFile('../whitneylight.otf'), { family: 'Whitney', weight: 'light' });
 
 		// ctx.font = `medium 1.25rem "Whitney"`;
 		ctx.textBaseline = "baseline";
