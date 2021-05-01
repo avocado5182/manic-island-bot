@@ -14,6 +14,7 @@ module.exports = {
 	name: 'help',
 	description: 'Lists Manic Island\'s commands.',
 	aliases: ['commands'],
+    category: "utility",
 	execute(message, args) {
         const data = [];
         const { commands } = message.client;

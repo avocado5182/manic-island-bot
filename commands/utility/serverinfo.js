@@ -5,6 +5,7 @@ module.exports = {
     description: "Gets info about current guild.",
     aliases: [],
     debug: false,
+    category: "utility",
     execute(message, args) {
     message.channel.send(`**Info for ${message.guild.name}** (loading...)`)
     .then(async msg => {

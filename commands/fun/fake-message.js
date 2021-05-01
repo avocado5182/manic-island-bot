@@ -15,6 +15,7 @@ module.exports = {
 	aliases: ["fake-msg", "fakemessage", "fakemsg"],
 	debug: false,
 	args: true,
+	category: "fun",
 	async execute(message, args) {
 		// https://discordjs.guide/popular-topics/canvas.html
 

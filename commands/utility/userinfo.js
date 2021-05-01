@@ -35,6 +35,7 @@ module.exports = {
     aliases: [],
     debug: false,
     args: true,
+    category: "utility",
     execute(message, args) {
         const inputted = message.mentions.members.first() ?? args[0];
         if (inputted === args[0]) {
