@@ -1,4 +1,5 @@
 const fs = require('fs');
+const guildJSON = require("../../modules/getJSON");
 
 function prompt(message, questions, filters, checkQuestions, checkAfter = true, currQ = 0, answers = []) {
     // message: Discord.Message
@@ -40,10 +41,7 @@ function prompt(message, questions, filters, checkQuestions, checkAfter = true, 
                                     // Finally, create the product
                                     answers.push(collected.first().content);
                                     
-                                    let serverJSONPath = `./db/economy/${message.guild.id}.json`;
-                                    let serverJSONObj = {};
-                                    
-                                    let itemObj = {
+                                    const itemObj = {
                                         name: answers[0],
                                         description: answers[1],
                                         price: answers[2],
@@ -51,18 +49,7 @@ function prompt(message, questions, filters, checkQuestions, checkAfter = true, 
                                         productID: serverJSONObj.products.length
                                     };
 
-                                    if (fs.existsSync(serverJSONPath)) {
-                                        serverJSONObj = JSON.parse(fs.readFileSync(serverJSONPath));
-                                        serverJSONObj.products.push(itemObj);
-                                    } else {
-                                        serverJSONObj = {
-                                            products: [
-                                                itemObj
-                                            ]
-                                        };
-                                    }
-
-                                    fs.writeFileSync(serverJSONPath, JSON.stringify(serverJSONObj));
+                                    guildJSON.setKey(message.guild.id, "products", [...guildJSON.getKey(message.guild.id, "products"), ...itemObj]);
 
                                     return message.channel.send("Product created!");
                                 }

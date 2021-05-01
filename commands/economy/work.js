@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const guildJSON = require("../modules/getJSON");
+const guildJSON = require("../../modules/getJSON");
 
 const firstLevelXP = 20;
 const xpCoefficient = 40;

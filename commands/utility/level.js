@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const guildJSON = require("../modules/getJSON");
+const guildJSON = require("../../modules/getJSON");
 
 const firstLevelXP = 20;
 const xpCoefficient = 40;
@@ -15,6 +15,7 @@ module.exports = {
     aliases: [],
     debug: false,
     usage: "<type (optional)>",
+    category: "utility",
     execute(message, args) {
         if (args[0]) {
             // type inputted
