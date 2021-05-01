@@ -1,12 +1,18 @@
+const path = require('path');
+
 const Canvas = require("canvas");
-const { fillTextWithTwemoji } = require('node-canvas-with-twemoji');
+const { fillTextWithTwemoji } = require('node-canvas-with-twemoji-and-discord-emoji');
 
 const { MessageAttachment } = require("discord.js");
+
+function fontFile(name) {
+	return path.join(__dirname, "../", name);
+}
 
 module.exports = {
 	name: "fake-message",
 	description: "Fakes a discord message",
-	aliases: ["fake-msg", "fakemessage"],
+	aliases: ["fake-msg", "fakemessage", "fakemsg"],
 	debug: false,
 	args: true,
 	async execute(message, args) {
@@ -24,26 +30,36 @@ module.exports = {
 		const avatarSize = 64;
 		const padding = 16;
 		
-		const guildMember = await message.guild.members.fetch(user.id)
-		
+		const guildMember = message.guild.members.cache.find(u => u.id === user.id) ?? await message.guild.members.fetch(user.id);
+
 		const textOffset = padding * 2 + avatarSize;
+		Canvas.registerFont(fontFile('whitneymedium.otf'), { family: 'Whitney', weight: 'medium' });
+		Canvas.registerFont(fontFile('whitneybook.otf'), { family: 'Whitney', weight: '400' });
+		Canvas.registerFont(fontFile('whitneysemibold.otf'), { family: 'Whitney', weight: 'semibold' });
+		Canvas.registerFont(fontFile('whitneybold.otf'), { family: 'Whitney', weight: 'bold' });
+		Canvas.registerFont(fontFile('whitneylight.otf'), { family: 'Whitney', weight: 'light' });
+
 		// ctx.font = "24pt sans-serif";
-		ctx.font = "22pt Whitney";
-		ctx.textBaseline = "hanging";
+		ctx.font = `medium 1.25rem "Whitney"`;
+		ctx.textBaseline = "baseline";
 		ctx.fillStyle = guildMember.displayHexColor ?? "#ffffff";
-		ctx.fillText(guildMember.displayName, textOffset, padding, 1000 - textOffset - padding);
+		ctx.fillText(guildMember.displayName, textOffset, padding * 2, 1000 - textOffset + padding);
 		
 		const authorTextMetrics = ctx.measureText(guildMember.displayName);
 		const timestampXOff = padding * 2.7 + avatarSize + authorTextMetrics.width;
-		ctx.font = "16pt Whitney";
+		ctx.font = `.825rem "Whitney"`;
 		ctx.fillStyle = "#72767d";
-		const timestamp = `${message.createdAt.getUTCHours()}:${message.createdAt.getUTCMinutes().toString().padStart(2, 0)} ${(message.createdAt.getUTCHours() < 12) ? "AM" : "PM"}`;
-		ctx.fillText(`Today at  ${timestamp}`, timestampXOff, padding + 7, 1000 - timestampXOff - padding);
+		const timestamp = `${message.createdAt.getUTCHours().toString().padStart(2, 0)}:${message.createdAt.getUTCMinutes().toString().padStart(2, 0)} ${(message.createdAt.getUTCHours() < 12) ? "AM" : "PM"}`;
+		ctx.fillText(`Today at  ${timestamp}`, timestampXOff, padding * 2, 1000 - timestampXOff + padding);
 			
-		ctx.font = "light 20pt Whitney";
+		ctx.font = `light 1.25rem "Whitney"`;
+		ctx.textBaseline = "hanging";
 		ctx.fillStyle = "#ffffff";
 		// ctx.fillText(text, textOffset, padding * 2.8, 1000 - textOffset - padding);
-		await fillTextWithTwemoji(ctx, text, textOffset, padding * 3);
+		// console.log(1000 - textOffset * 4 - padding);
+		
+		// TODO add wrapping
+		await fillTextWithTwemoji(ctx, text, textOffset, padding * 2 + 12, { maxWidth: 1000 - textOffset * 4 - padding });
 
 		// Pick up the pen
 		ctx.beginPath();
