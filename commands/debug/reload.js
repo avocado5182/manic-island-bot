@@ -1,3 +1,24 @@
+const fs = require("fs");
+
+function walk(dir) {
+    let results = [];
+    const list = fs.readdirSync(dir);
+    list.forEach(function(file) {
+        file = dir + '/' + file;
+        const stat = fs.statSync(file);
+        if (stat && stat.isDirectory()) { 
+            /* Recurse into a subdirectory */
+            results = results.concat(walk(file));
+        } else { 
+            /* Is a file */
+            file_type = file.split(".").pop();
+            file_name = file.split(/(\\|\/)/g).pop();
+            if (file_type == "js") results.push(file);
+        }
+    });
+    return results;
+}
+
 module.exports = {
 	name: 'reload',
 	description: 'Reloads a command',
@@ -11,10 +32,12 @@ module.exports = {
             || undefined;
       
         if (command != undefined) {
-            delete require.cache[require.resolve(`./${command.name}.js`)];
+            // delete require.cache[require.resolve(`./${command.name}.js`)];
+            // delete require.cache[require.resolve(`././${command.category??""}/${command.name}`)];
+            delete require.cache[require.resolve("./reload.js")];
 
             try {
-                const newCommand = require(`./${command.name}.js`);
+                const newCommand = require(`../${command.category??""}/${command.name}`);
                 message.client.commands.set(newCommand.name, newCommand);
                 return message.channel.send(`Command \`${command.name}\` was reloaded!`);
             } catch (error) {
