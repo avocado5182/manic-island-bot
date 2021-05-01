@@ -1,5 +1,5 @@
 // const { ownerID } = require('../config.json');
-const index = require('../index.js');
+const index = require('../../index.js');
 require("dotenv").config();
 
 const clean = text => {
