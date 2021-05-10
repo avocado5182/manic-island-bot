@@ -180,9 +180,10 @@ function prompt(message, productName, questions, filters, checkQuestions, checkA
 }
 
 module.exports = {
-    name: "modifyproduct",
-    description: "Modifies a product",
+    name: "editproduct",
+    description: "Edits a product",
     args: true,
+    aliases: ["edit"],
     category: "economy",
     usage: "<product name>",
     execute(message, args) {
@@ -220,13 +221,13 @@ module.exports = {
 
                     prompt(message, givenName, questions, filters, checkAfterQuestions, false);
                 } else {
-                    return message.reply("You can't modify that product because you are not the seller of it. \nYou can ask the seller if you would like for the product to be changed.");
+                    return message.reply("You can't edit that product because you are not the seller of it. \nYou can ask the seller if you would like for the product to be changed.");
                 }
             } else {
                 return message.reply("The given product doesn't exist. Please try again.");
             }
         } else {
-            return message.reply("There are no products to modify. Please create a product and try again.");
+            return message.reply("There are no products to edit. Please create a product and try again.");
         }
     }
 }
