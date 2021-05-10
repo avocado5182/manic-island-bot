@@ -34,25 +34,31 @@ module.exports = {
     description: "Gets info on a user based on id or by mention.",
     aliases: [],
     debug: false,
-    args: true,
     category: "utility",
-    execute(message, args) {
-        const inputted = message.mentions.members.first() ?? args[0];
-        if (inputted === args[0]) {
-            // args[0] is likely an id, but we still need to check
-            message.guild.members.fetch(args[0])
-            .then(member => {
-                sendMemberInfo(member, message);
-            })
-            .catch(err => {
-                const member = message.guild.members.cache.find(m => m.user.id === inputted);
-                if (member) {
+    async execute(message, args) {
+        if (args.length > 0) {
+            const inputted = message.mentions.members.first() ?? args[0];
+            if (inputted === args[0]) {
+                // args[0] is likely an id, but we still need to check
+                message.guild.members.fetch(args[0])
+                .then(member => {
                     sendMemberInfo(member, message);
-                }
-            });
+                })
+                .catch(err => {
+                    console.error(err);
+                    if (err.code === Discord.Constants.APIErrors.UNKNOWN_MEMBER) {
+                        return message.channel.send("Invalid member inputted!");
+                    }
+                    return message.channel.send(`Something went wrong. Here's the error: \n\`\`\`${err}\`\`\``);
+                });
+            } else {
+                // Mentioned a member, inputted is a Member
+                sendMemberInfo(inputted, message);
+            }
         } else {
-            // Mentioned a member, inputted is a Member
-            sendMemberInfo(inputted, message);
+            console.log(message);
+            const member = await message.guild.members.fetch(message.author.id);
+            sendMemberInfo(member, message);
         }
     }
 }
