@@ -5,6 +5,9 @@ const spell = require('spell-checker-js');
 const levenshtein = require('js-levenshtein');
 
 const express = require('express');
+const {
+    messages
+} = require('./messages');
 const app = express();
 
 app.get('/', (req, res) => {
@@ -25,13 +28,13 @@ spell.load('./commands/commands.txt');
 function walk(dir) {
     let results = [];
     const list = fs.readdirSync(dir);
-    list.forEach(function(file) {
+    list.forEach(function (file) {
         file = dir + '/' + file;
         const stat = fs.statSync(file);
-        if (stat && stat.isDirectory()) { 
+        if (stat && stat.isDirectory()) {
             /* Recurse into a subdirectory */
             results = results.concat(walk(file));
-        } else { 
+        } else {
             /* Is a file */
             file_type = file.split(".").pop();
             file_name = file.split(/(\\|\/)/g).pop();
@@ -57,21 +60,69 @@ const cooldowns = new Discord.Collection();
 client.once('ready', () => {
     console.log(`Hi there. ${client.user.username} is now online.`);
 
-    client.user.setPresence({
-        status: 'online',
-        activity: {
-            type: 'LISTENING',
-            name: `m!help`
-        }
-    });
+    // 0 is "Listening to m!help",
+    // 1 is one of many random messages
+    // 2 is custom msg
+    const presenceType = 0;
+
+    client.user.setStatus("online");
+    if (presenceType === 0) {
+        client.user.setPresence({
+            status: 'online',
+            activity: {
+                type: "LISTENING",
+                name: `m!help`
+            }
+        });
+    } else if (presenceType === 1) {
+        setInterval(() => {
+            function randomIndex(min,max,prev=-1) {
+                const random = Math.floor(Math.random() * (max - min)) + min;
+                if (random == prev) return randomIndex(min, max, prev);
+                return random;
+            }
+            const message = messages[randomIndex(0, messages.length - 1)];
+            console.log(message);
+            console.log(typeof message);
+            if (typeof message === "object") {
+                client.user.setActivity(message[1], { type: message[0] });
+            } else if (typeof message === "string") {
+                client.user.setActivity(message, { type: "PLAYING" });
+            } else {
+                client.user.setPresence({
+                    status: 'online',
+                    activity: {
+                        type: "LISTENING",
+                        name: `m!help`
+                    }
+                });
+            }
+        }, 5000);
+    } else if (presenceType === 2) {
+        const customMessage = "wrapping soon";
+        client.user.setPresence({
+            status: 'online',
+            activity: {
+                type: "PLAYING",
+                name: customMessage
+            }
+        })
+    } else {
+        // Default to type 0
+        client.user.setPresence({
+            status: 'online',
+            activity: {
+                type: 'LISTENING',
+                name: `m!help`
+            }
+        });
+    }
 });
 
 client.once('disconnect', () => {
     console.error(`${client.user.username} has disconnected. Ahhhhhhh`);
 
-    client.user.setPresence({
-        status: 'invisible'
-    });
+    client.user.setStatus("invisible");
 })
 
 client.on('message', message => {
@@ -83,6 +134,9 @@ client.on('message', message => {
     const command = client.commands.get(commandName) ||
         client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
+    if (!command) {
+        return;
+    }
     // if (!command) {
     //     let wrong = spell.check(commandName);
     //     let realName = commandName;
@@ -114,7 +168,7 @@ client.on('message', message => {
         let reply = `${message.author.username}, No arguments provided. Try again.`;
 
         if (command.usage)
-            reply += `\nThe proper usage would be: \`${process.env['PREFIX']}${command.name} ${command.usage}\``;
+            reply += `\nThe proper usage would be: \`${process.env['PREFIX']}${commandName} ${command.usage}\``;
 
         return message.channel.send(reply);
     }
