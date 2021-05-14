@@ -62,6 +62,11 @@ function numberToLetter(number, uppercase = true) {
 	return String.fromCharCode(((number % 26) + 1) + ((uppercase) ? 64 : 96));
 }
 
+function offsetTime(timeValue, offset) {
+	// i dont remember why i have 2 modulos but it works soo ¯\_(ツ)_/¯
+	return ((24 + (timeValue + offset)) % 24) % 24;
+}
+
 // lmao https://www.techiedelight.com/replace-character-specified-index-javascript/
 String.prototype.replaceAt = function (index, replacement) {
 	if (index >= this.length)
@@ -122,17 +127,35 @@ module.exports = {
 		ctx.textBaseline = "baseline";
 		ctx.font = `medium 1rem "Whitney"`;
 		ctx.fillStyle = (guildMember.displayHexColor === "#000000") ? "#ffffff" : guildMember.displayHexColor;
-		// ctx.fillText(guildMember.displayName, textOffset, padding * 2.25, 700 - textOffset + padding);
-		ctx.fillText(guildMember.displayName, textOffset, padding * 1.9, 700 - textOffset + padding);
+		await fillTextWithTwemoji(ctx, guildMember.displayName, textOffset, padding * 1.9, { maxWidth: 700 - textOffset + padding });
 
 		const authorTextMetrics = ctx.measureText(guildMember.displayName);
-		const timestampXOff = padding * 2.7 + avatarSize + authorTextMetrics.width;
-		// ctx.font = `.8rem "Whitney"`;
+		const timestampXOff = padding * 2.6 + avatarSize + authorTextMetrics.width;
 		ctx.font = `400 .7rem "Whitney"`;
 		ctx.fillStyle = "#72767d";
-		const timestamp = `${message.createdAt.getUTCHours().toString().padStart(2, 0)}:${message.createdAt.getUTCMinutes().toString().padStart(2, 0)} ${(message.createdAt.getUTCHours() < 12) ? "AM" : "PM"}`;
-		// ctx.fillText(`Today at  ${timestamp}`, timestampXOff, padding * 2.25, 700 - timestampXOff + padding);
+		const UTChrs = message.createdAt.getUTCHours();
+
+		// --------- Timestamp text --------- //
+
+		// toggles 12 hour time lmao
+		const stupidTime = true;
+		// dont change
+		let AM = false;
+
+		const offset = -4;
+
+		console.log(UTChrs);
+		let convertedHrs = offsetTime(UTChrs, offset);
+		if (stupidTime) {
+			AM = (convertedHrs < 12 && convertedHrs >= 0);
+			// 0 and 12 will return 12 and rest will return 1..11 inclusive
+			convertedHrs = (convertedHrs % 12 === 0) ? 12 : convertedHrs % 12;
+		}
+
+		const timestamp = `${convertedHrs.toString().padStart(2, 0)}:${message.createdAt.getUTCMinutes().toString().padStart(2, 0)} ${((stupidTime) ? ((AM) ? "AM" : "PM") : "" )}`;
 		ctx.fillText(`Today at  ${timestamp}`, timestampXOff, padding * 1.9, 700 - timestampXOff + padding);
+
+		// --------- Body text --------- //
 
 		ctx.font = `light 1rem "Whitney"`;
 		ctx.textBaseline = "hanging";
@@ -150,8 +173,10 @@ module.exports = {
 				adjusted = words.join(" ");
 			}
 		}
+		console.log(adjusted);
 
 		const wrapped = wrap(ctx.font, adjusted, 700 - (padding * 3 + avatarSize));
+		console.log(wrapped);
 		let finalText = wrapped;
 		const wrappedArr = wrapped.split("");
 		let emojiIndex = 0;
@@ -168,6 +193,8 @@ module.exports = {
 		await fillTextWithTwemoji(ctx, finalText, textOffset, padding * 1.67 + 12, {
 			maxWidth: 700 - textOffset * 4 - padding
 		});
+
+		// --------- Avatar/Canvas building --------- //
 
 		// Pick up the pen
 		ctx.beginPath();
