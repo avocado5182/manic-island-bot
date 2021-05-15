@@ -1,8 +1,9 @@
 const fs = require('fs');
+const path = require("path");
 
 module.exports = {
     getKey(gid, key) {
-        const JSONpath = `./db/economy/${gid}.json`;
+        const JSONpath = `././db/economy/${gid}.json`;
         try {
             let JSONobj = JSON.parse(fs.readFileSync(JSONpath)) ?? {};
             const val = JSONobj[key];
@@ -17,7 +18,7 @@ module.exports = {
     },
 
     setKey(gid,key,val) {
-        const JSONpath = `./db/economy/${gid}.json`;
+        const JSONpath = `././db/economy/${gid}.json`;
         try {
             let JSONobj = JSON.parse(fs.readFileSync(JSONpath)) ?? {};
 
