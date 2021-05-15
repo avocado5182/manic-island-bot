@@ -31,8 +31,11 @@ function wrap(font, text, lineWidth) {
 		if (line.length > 0)
 			newline = [line, [word]].join(" "); 
 
+		// below is from the imgen API
 		// w, h = font.getsize(newline)
-		// h isn't used and Canvas's text metrics has width, so we can use that alone
+
+		// h isn't used above and Canvas's text metrics helpfully has width,
+		// so we can use that alone
 		const canvas = Canvas.createCanvas(700, 250);
 		const ctx = canvas.getContext('2d');
 
