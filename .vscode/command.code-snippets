@@ -13,5 +13,12 @@
 				"\t}",
 			"}"
 		]
+	},
+	"Send a Discord message": {
+		"scope": "javascript",
+		"prefix": "msg",
+		"body": [
+			"message.channel.send($0)"
+		]
 	}
 }
