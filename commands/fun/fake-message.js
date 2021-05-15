@@ -1,17 +1,11 @@
 const path = require('path');
 
 const Canvas = require("canvas");
-const {
-	fillTextWithTwemoji
-} = require('node-canvas-with-twemoji-and-discord-emoji');
+const { fillTextWithTwemoji } = require('node-canvas-with-twemoji-and-discord-emoji');
 
-const {
-	MessageAttachment
-} = require("discord.js");
+const { MessageAttachment } = require("discord.js");
 
-function fontFile(name) {
-	return path.join(__dirname, "../", name);
-}
+const getFontFile = (name) => path.join(__dirname, "../", name);
 
 
 // Taken from Dank Memer's imgen API, specifically
@@ -27,7 +21,6 @@ function wrap(font, text, lineWidth) {
 	// to lines when the current line width > lineWidth
 	for (const word of words) {
 		let newline = word;
-		console.log("Line at start:" + line);
 		if (line.length > 0)
 			newline = [line, [word]].join(" "); 
 
@@ -99,23 +92,23 @@ module.exports = {
 		const guildMember = message.guild.members.cache.find(u => u.id === user.id) ?? await message.guild.members.fetch(user.id);
 
 		const textOffset = padding * 2 + avatarSize;
-		Canvas.registerFont(fontFile('../whitneymedium.otf'), {
+		Canvas.registerFont(getFontFile('../whitneymedium.otf'), {
 			family: 'Whitney',
 			weight: 'medium'
 		});
-		Canvas.registerFont(fontFile('../whitneybook.otf'), {
+		Canvas.registerFont(getFontFile('../whitneybook.otf'), {
 			family: 'Whitney',
 			weight: '400'
 		});
-		Canvas.registerFont(fontFile('../whitneysemibold.otf'), {
+		Canvas.registerFont(getFontFile('../whitneysemibold.otf'), {
 			family: 'Whitney',
 			weight: 'semibold'
 		});
-		Canvas.registerFont(fontFile('../whitneybold.otf'), {
+		Canvas.registerFont(getFontFile('../whitneybold.otf'), {
 			family: 'Whitney',
 			weight: 'bold'
 		});
-		Canvas.registerFont(fontFile('../whitneylight.otf'), {
+		Canvas.registerFont(getFontFile('../whitneylight.otf'), {
 			family: 'Whitney',
 			weight: 'light'
 		});
@@ -147,7 +140,6 @@ module.exports = {
 
 		const offset = -4;
 
-		console.log(UTChrs);
 		let convertedHrs = offsetTime(UTChrs, offset);
 		if (stupidTime) {
 			AM = (convertedHrs < 12 && convertedHrs >= 0);
@@ -176,10 +168,13 @@ module.exports = {
 				adjusted = words.join(" ");
 			}
 		}
-		console.log(adjusted);
 
 		const wrapped = wrap(ctx.font, adjusted, 700 - (padding * 3 + avatarSize));
-		console.log(wrapped);
+		console.log("----------------");
+		console.log(`Sender: ${message.author.tag}`);
+		console.log(`Mentioned: ${(message.mentions.members.size > 0 && user === message.mentions.members.first().user) ? user.tag : "None"}`);
+		console.log(`Message: ${wrapped}`);
+		console.log("----------------");
 		let finalText = wrapped;
 		const wrappedArr = wrapped.split("");
 		let emojiIndex = 0;
