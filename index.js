@@ -5,13 +5,16 @@ const spell = require('spell-checker-js');
 const levenshtein = require('js-levenshtein');
 
 const express = require('express');
-const {
-    messages
-} = require('./messages');
+const fetch = require('node-fetch');
+const { messages } = require('./messages');
 const app = express();
 
 app.get('/', (req, res) => {
-    res.send("Manic Island is online!");
+    const url = "https://avocado5182.github.io/manic-island-bot/index.html";
+
+    fetch(url)
+    .then(async html => res.send(await html.text()))
+    .catch(err => res.send("Manic Island is online! (You're seeing this because there was an error with fetching the github's html)"));
 })
 
 app.listen(3000, console.log("Website open."));
@@ -63,7 +66,7 @@ client.once('ready', () => {
     // 0 is "Listening to m!help",
     // 1 is one of many random messages
     // 2 is custom msg
-    const presenceType = 0;
+    const presenceType = 1;
 
     client.user.setStatus("online");
     if (presenceType === 0) {
@@ -82,8 +85,6 @@ client.once('ready', () => {
                 return random;
             }
             const message = messages[randomIndex(0, messages.length - 1)];
-            console.log(message);
-            console.log(typeof message);
             if (typeof message === "object") {
                 client.user.setActivity(message[1], { type: message[0] });
             } else if (typeof message === "string") {
