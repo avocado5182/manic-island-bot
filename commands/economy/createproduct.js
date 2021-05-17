@@ -118,6 +118,7 @@ module.exports = {
     description: "Creates a product with an interactive setup",
     category: "economy",
     usage: "",
+    guildOnly: true,
     execute(message, args) {
         // Skipping role/perm check for now
         const strfilter = msg => (typeof msg.content === "string");

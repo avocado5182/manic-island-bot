@@ -1,23 +1,21 @@
-const fs = require('fs');
-const { MessageEmbed, Guild } = require('discord.js');
 const guildJSON = require("../../modules/getJSON");
-const { trace } = require('console');
 
 module.exports = {
     name: "buyproduct",
     description: "Buys a product with a given name.",
-    aliases: ["buy"],
+    aliases: ["buy-product"],
     debug: false,
     args: true,
     usage: "<product name>",
     category: "economy",
+    guildOnly: true,
     execute(message, args) {
         try {
             let products = guildJSON.getKey(message.guild.id, "products");
             const givenProductName = args.join(" ");
             
-            const product = products.find(p => p.name === givenProductName);
-            if (product !== null || product !== undefined) {
+            const product = products.find(p => p.name.toLowerCase() === givenProductName.toLowerCase());
+            if (product != null || product != undefined) {
                 const stats = guildJSON.getKey(message.guild.id, "stats");
                 let userStats = stats.find(u => u.user === message.author.id);
 

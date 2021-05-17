@@ -1,4 +1,5 @@
 const fs = require('fs');
+const guildJSON = require("../../modules/getJSON");
 
 module.exports = {
     name: "removeproduct",
@@ -6,15 +7,13 @@ module.exports = {
     args: true,
     category: "economy",
     usage: "<product name/id>",
+    guildOnly: true,
     execute(message, args) {
-        let serverJSONPath = `./db/economy/${message.guild.id}.json`;
+        const products = guildJSON.getKey(message.guild.id, "products") ?? {};
 
-        if (fs.existsSync(serverJSONPath)) {
-            let serverJSONObj = JSON.parse(fs.readFileSync(serverJSONPath));
-            let productList = serverJSONObj.products;
-            let givenName = args.join(" ");
-
-            let product = productList.find(p => p.name === givenName);
+        if (products && products.length > 0) { 
+            const givenName = args.join(" ");
+            const product = products.find(p => p.name.toLowerCase() === givenName.toLowerCase());
             if (product) {
                 if (product.sellerID === message.author.id) {
                     message.reply(`Are you sure you want to remove the product *${product.name}*?`)
@@ -32,26 +31,26 @@ module.exports = {
                                 if (reacted.get("✅")) {
                                     // Remove it
                                     let productIndex = productList.findIndex(p => p === product);
-                                    serverJSONObj.products.splice(productIndex, 1);
-                                    fs.writeFileSync(serverJSONPath, JSON.stringify(serverJSONObj));
+                                    products.splice(productIndex, 1);
+                                    guildJSON.setKey(message.guild.id, "products", products);
                                     return message.channel.send(`Your product *${product.name}* was removed.`)
                                 } else if (reacted.get("❌")) {
                                     return message.channel.send("Okay. Your product was not removed.");
                                 }
                             }).catch(err => {
                                 console.error(err);
-                                return message.reply("you did not reply in time or something else went wrong. Please try again");
+                                return message.channel.send(`${message.guild.member(message.author).displayName}, you did not reply in time or something else went wrong. Please try again`);
                             });
                         });
                     });
                 } else {
-                    return message.reply("You can't remove that product because you are not the seller of it. \nYou can ask the seller if you would like for the product to be removed.");
+                    return message.channel.send(`${message.guild.member(message.author).displayName}, You can't remove that product because you are not the seller of it. \nYou can ask the seller if you would like for the product to be removed.`);
                 }
             } else {
-                return message.reply("The given product doesn't exist. Please try again.");
+                return message.channel.send(`${message.guild.member(message.author).displayName}, The given product doesn't exist. Please try again.`);
             }
         } else {
-            return message.reply("There are no products to remove. Please create a product and try again.");
+            return message.channel.send(`${message.guild.member(message.author).displayName}, There are no products to remove. Please create a product and try again.`);
         }
     }
 }
