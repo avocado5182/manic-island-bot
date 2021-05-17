@@ -1,5 +1,4 @@
 // const { ownerID } = require('../config.json');
-const index = require('../../index.js');
 require("dotenv").config();
 
 const clean = text => {
@@ -16,8 +15,9 @@ module.exports = {
     debug: true,
     category: "debug",
     args: true,
+    hidden: true,
 	execute(message, args) {
-        if(message.author.id !== (process.env.OWNER_ID ?? process.env["OWNER_ID"])) return message.channel.send("Lol");
+        if(message.author.id !== (process.env.OWNER_ID ?? process.env["OWNER_ID"])) return;
         try {
             const code = args.join(" ");
             let evaled = eval(code);
