@@ -7,7 +7,10 @@
 				"\tname: \"${1:name}\",",
 				"\tdescription: \"${2:description}\",",
 				"\taliases: [],",
+				"\tcategory: \"${3:category}\",",
 				"\tdebug: false,",
+				"\thidden: false,",
+				"\tguildOnly: false,",
 				"\texecute(message, args) {",
 					"\t\t$0",
 				"\t}",
@@ -19,6 +22,23 @@
 		"prefix": "msg",
 		"body": [
 			"message.channel.send($0)"
+		]
+	},
+	"Create a shop item": {
+		"scope": "javascript",
+		"prefix": "shopitem",
+		"body": [
+			"{",
+				"\tname: \"${1:name}\",",
+				"\tdescription: \"${2:description}\",",
+				"\tid: \"${3:id}\",",
+				"\tprice: ${4:price},",
+				"\tcanHaveMultiple: ${5:true},",
+				"\tcanUseMultiple: ${6:true},",
+				"\tasync use(message, amt=1) {",
+					"\t\t$0",
+				"\t}",
+			"},"
 		]
 	}
 }
