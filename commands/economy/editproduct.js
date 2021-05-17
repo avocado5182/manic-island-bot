@@ -186,6 +186,7 @@ module.exports = {
     aliases: ["edit"],
     category: "economy",
     usage: "<product name>",
+    guildOnly: true,
     execute(message, args) {
         let serverJSONPath = `./db/economy/${message.guild.id}.json`;
 
@@ -194,7 +195,7 @@ module.exports = {
             let productList = JSON.parse(serverJSONFile).products;
             let givenName = args.join(" ");
 
-            let product = productList.find(p => p.name === givenName);
+            let product = productList.find(p => p.name.toLowerCase() === givenName.toLowerCase());
             if (product) {
                 if (product.sellerID === message.author.id) {
                     // Start guided setup
