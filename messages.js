@@ -7,11 +7,7 @@ module.exports = {
         ['PLAYING', 'Catboy Fwame Simulator OwO'],
         ['PLAYING',  'Playing Playing Playing Playing Playing Playing']
         ['LISTENING', 'my thoughts'],
-        ['LISTENING', 'm!help'],
-        ['LISTENING', 'm!help'],
-        ['LISTENING', 'm!help'],
-        ['LISTENING', 'm!help'],
-        ['LISTENING', 'm!help'],
+        ['LISTENING', 'm!owo'],
         ['LISTENING', 'm!help'],
         ['WATCHING', 'for the new feature in 5 hours'],
         ['WATCHING', 'avocado dies??? (not CLICKBAIT) (gone wrong)']
