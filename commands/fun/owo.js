@@ -1,16 +1,6 @@
 // Hahahahahaha
 const UwUifier = require('uwuifier');
-const uwuifier = new UwUifier({
-    spaces: {
-        faces: 0.05,
-        actions: 0,
-        stutters: 0.2
-    },
-    words: 1,
-    exclamations: 1
-});
-
-// const owoify = require('owoify-js').default;
+const owo = require("owofy");
 
 module.exports = {
     name: "owo",
@@ -20,12 +10,41 @@ module.exports = {
     debug: false,
     category: "fun",
     execute(message, args) {
-        // return message.channel.send(owoify(args.join(" "), "uvu"));
         const toUwUify = args.join(" ");
         const characterLimit = 800;
         if (toUwUify.length >= characterLimit) {
             return message.channel.send(`You cannot have more than ${characterLimit} characters in the command parameters. Please try again.`);
         }
-        return message.channel.send(uwuifier.uwuifySentence(args.join(" ")));
+        const uwuifier = new UwUifier({
+            // spaces: {
+            //     // faces: 0.2,
+            //     actions: 0.2,
+            //     // stutters: 0.2
+            // },
+            words: 1,
+            exclamations: 1
+        });
+
+
+        // return message.channel.send(uwuifier.uwuifySentence(owo(toUwUify)));
+        // console.log(owo.faces);
+        // owo.faces.concat([
+        //     "(・`ω´・)",
+        //     ";w;",
+        //     "OwO",
+        //     "UwU",
+        //     ">w<",
+        //     "^w^",
+        //     "ÚwÚ",
+        //     "^-^",
+        //     ":3",
+        //     "x3",
+        //     "＼(＾▽＾)／",
+        //     "TwT",
+        //     "-w-"
+        // ]);
+        // console.log(owo.faces);
+
+        return message.channel.send(owo(toUwUify));
     }
 }
