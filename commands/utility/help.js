@@ -13,7 +13,7 @@ spell.load('./commands/commands.txt');
 module.exports = {
 	name: 'help',
 	description: 'Lists Manic Island\'s commands.',
-	aliases: ['commands'],
+	// aliases: ['commands'],
     category: "utility",
 	execute(message, args) {
         const data = [];
@@ -29,7 +29,7 @@ module.exports = {
 
 
             for (let _command of commands) {
-                if (_command[1].name == "debug") continue;
+                if (_command[1].name == "debug" || _command[1].name.includes("part") || _command[1].hidden) continue;
                 switch (_command[1].category) {
                     case "moderation":
                         moderationCommands.push(`\`${_command[1].name}\``);
