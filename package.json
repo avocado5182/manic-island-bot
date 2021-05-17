@@ -19,7 +19,7 @@
     "node-canvas-with-twemoji": "^0.1.6",
     "node-canvas-with-twemoji-and-discord-emoji": "^1.2.1",
     "node-fetch": "^2.6.1",
-    "owoify-js": "^1.0.7",
+    "owofy": "^1.0.2",
     "spell-checker-js": "^1.2.6",
     "sqlite3": "^5.0.2",
     "uwuifier": "^3.0.0"
